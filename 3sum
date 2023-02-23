@@ -1,0 +1,26 @@
+class Solution(object):
+    def threeSum(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        res = []
+        nums.sort()
+        for x in range(len(nums)-1):
+            if x>0 and nums[x] == nums[x-1]:
+                continue
+            p1 = x+1
+            p2 = len(nums)-1
+            while p1<p2:
+                sumo = nums[p1]+nums[p2]+nums[x]
+                if sumo==0:
+                    res.append([nums[x], nums[p1], nums[p2]])
+                    p1 += 1
+                    while nums[p1-1] == nums[p1] and p1<p2:
+                        p1 += 1
+                elif sumo<0:
+                    p1 += 1
+                else:
+                    p2 -= 1
+        return res
+        
