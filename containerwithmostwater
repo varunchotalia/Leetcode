@@ -1,0 +1,20 @@
+class Solution(object):
+    def maxArea(self, height):
+        """
+        :type height: List[int]
+        :rtype: int
+        """
+        maxp, l, r = 0, 0, len(height)-1
+        while l<r:
+            minh = min(height[l], height[r])
+            currp = minh*(r-l)
+            if currp>maxp:
+                maxp = currp
+            if (l+1<r and height[l] == minh) or l>r-1:
+                l += 1
+            elif (l<r-1 and height[r] == minh) or l+1>r:
+                r -= 1
+            else:
+                break
+        return maxp
+                
