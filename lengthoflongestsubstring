@@ -1,0 +1,29 @@
+class Solution(object):
+    def lengthOfLongestSubstring(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        if len(s) <= 1:
+            return len(s)
+        l, r, maxsubs, currsubs = 0, 0, 0, s[0]
+        while r<len(s):
+            if len(currsubs) > maxsubs:
+                maxsubs = len(currsubs)
+            if r+1<len(s) and s[r+1] not in currsubs:
+                r += 1
+                currsubs = s[l:r+1] 
+            elif r+1<len(s) and s[r+1] in currsubs:
+                if s[r] == s[r+1]:
+                    l = r+1
+                    r = l
+                    currsubs = s[l]
+                else:
+                    index = r
+                    while s[index] != s[r+1]:
+                        index -= 1
+                    l = index + 1
+                    currsubs = s[l:r+1]
+            else:
+                r+=1
+        return maxsubs
