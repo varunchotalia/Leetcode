@@ -1,0 +1,32 @@
+class Solution(object):
+    def checker(self, tsh, hsh):
+        for x in tsh:
+            if hsh.get(x, 0) < tsh[x]:
+                return False
+        return True
+
+    def minWindow(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: str
+        """
+        tsh = {}
+        hsh = {}
+        for x in range(len(t)):
+            tsh[t[x]] = 1 + tsh.get(t[x], 0)
+        if len(s)<len(t):
+            return ""
+        l, mini = 0, ""
+        for r in range(len(s)):
+            hsh[s[r]] = 1 + hsh.get(s[r], 0)
+            while self.checker(tsh, hsh):
+                hsh[s[l]] = hsh.get(s[l], 0) - 1
+                if self.checker(tsh, hsh):
+                    l += 1
+                else:
+                    hsh[s[l]] = hsh.get(s[l], 0) + 1
+                    break
+            if (len(mini)>len(s[l:r+1]) or mini == "") and self.checker(tsh, hsh):
+                mini = s[l:r+1]
+        return mini
