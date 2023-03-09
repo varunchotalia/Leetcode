@@ -1,0 +1,32 @@
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution(object):
+    def reorderList(self, head):
+        """
+        :type head: ListNode
+        :rtype: None Do not return anything, modify head in-place instead.
+        """
+        traverse, slow, fast = head, head, head.next
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        #reversing list
+        traverse2 = slow.next
+        slow.next = None
+        prev = None
+        while traverse2:
+            temp = traverse2.next
+            traverse2.next = prev
+            prev = traverse2
+            traverse2 = temp
+        traverse2 = prev
+
+        while traverse2:
+                tsave, t2save = traverse.next, traverse2.next 
+                traverse.next = traverse2
+                traverse2.next = tsave
+                traverse2 = t2save
+                traverse = tsave
