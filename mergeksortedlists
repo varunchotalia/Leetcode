@@ -1,0 +1,32 @@
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution(object):
+    def mergeKLists(self, lists):
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
+        head = None
+        traverse = head
+        while lists:
+            # print(lists)
+            # print(traverse)
+            min = 0
+            for x in range(len(lists)):
+                if not lists[min] or (lists[x] and (lists[x].val<lists[min].val)):
+                    min = x
+            if not lists[min]:
+                break
+            if traverse:
+                traverse.next = ListNode(lists[min].val)
+                traverse.next.next = None
+                traverse = traverse.next
+            else:
+                traverse = ListNode(lists[min].val)
+                traverse.next = None
+                head = traverse
+            lists[min] = lists[min].next
+        return head
