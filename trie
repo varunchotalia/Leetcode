@@ -1,0 +1,93 @@
+class Node(object):
+    def __init__(self):
+        self.children = [None]*26
+        self.end = False
+
+class Trie(object):
+
+    def __init__(self):
+        self.root = Node()
+
+    def insert(self, word):
+        """
+        :type word: str
+        :rtype: None
+        """
+        if not word:
+            return
+        if not self.root.children[ord('z') - ord(word[0])]:
+            child = Node()
+            self.root.children[ord('z') - ord(word[0])] = child
+            if len(word) == 1:
+                self.root.children[ord('z') - ord(word[0])].end = True
+                return
+            i = 1
+            while i<len(word):
+                temp = Node()
+                if i >= len(word) - 1:
+                    temp.end = True
+                child.children[ord('z') - ord(word[i])] = temp
+                child = temp
+                i += 1
+        else:
+            i = 0
+            child = self.root
+            while i<len(word) and child.children[ord('z') - ord(word[i])]:
+                child = child.children[ord('z') - ord(word[i])]
+                i += 1
+            if i == len(word):
+                child.end = True
+                return
+            while i<len(word):
+                temp = Node()
+                if i >= len(word) - 1:
+                    temp.end = True
+                child.children[ord('z') - ord(word[i])] = temp
+                child = temp
+                i += 1
+
+
+    def search(self, word):
+        """
+        :type word: str
+        :rtype: bool
+        """
+        if not word:
+            return True
+        if not self.root.children[ord('z') - ord(word[0])]:
+            return False
+        i = 0
+        child = self.root
+        while i<len(word) and child.children[ord('z') - ord(word[i])]:
+            child = child.children[ord('z') - ord(word[i])]
+            i += 1
+        if i == len(word) and child.end:
+            return True
+        return False
+        
+
+    def startsWith(self, prefix):
+        """
+        :type prefix: str
+        :rtype: bool
+        """
+        word = prefix
+        if not word:
+            return True
+        if not self.root.children[ord('z') - ord(word[0])]:
+            return False
+        i = 0
+        child = self.root
+        while i<len(word) and child.children[ord('z') - ord(word[i])]:
+            child = child.children[ord('z') - ord(word[i])]
+            i += 1
+        if i == len(word):
+            return True
+        return False
+
+
+# Your Trie object will be instantiated and called as such:
+# obj = Trie()
+# obj.insert(word)
+# param_2 = obj.search(word)
+# param_3 = obj.startsWith(prefix)
