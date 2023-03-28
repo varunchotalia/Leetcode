@@ -1,0 +1,32 @@
+class Solution(object):
+    def exist(self, board, word):
+        """
+        :type board: List[List[str]]
+        :type word: str
+        :rtype: bool
+        """
+        if not word or not board:
+            return False
+        visited = [[False]*len(board[0]) for i in range(len(board))]
+        def dfs(x, y, i):
+            if i == len(word):
+                return True
+            if x >= len(board) or y >= len(board[x]) or x < 0 or y < 0 :
+                return False
+            if board[x][y] != word[i] or visited[x][y]:
+                return False
+            
+            visited[x][y] = True
+            res = dfs(x+1, y, i+1)
+            res = res or dfs(x-1, y, i+1)
+            res = res or dfs(x, y-1, i+1)
+            res = res or dfs(x, y+1, i+1)
+            visited[x][y] = False
+            return res
+
+        for x in range(len(board)):
+            for y in range(len(board[x])):
+                if board[x][y] == word[0]:
+                    if dfs(x, y, 0):
+                        return True
+        return False
