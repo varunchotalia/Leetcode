@@ -1,0 +1,51 @@
+class Node(object):
+    def __init__(self):
+        self.children = {}
+        self.end = False
+
+    def insert(self, word):
+        cur = self
+        for x in word:
+            if x not in cur.children:
+                cur.children[x] = Node()
+            cur = cur.children[x]
+        cur.end = True
+
+class Solution(object):
+    def findWords(self, board, words):
+        """
+        :type board: List[List[str]]
+        :type words: List[str]
+        :rtype: List[str]
+        """
+        rows, cols = len(board), len(board[0])
+        root = Node()
+        path, res = set(), set()
+        for x in words:
+            root.insert(x)
+
+        def dfs(x, y, child, word):
+            if (x>=rows or y>=cols or x<0 or y<0 or board[x][y] not in child.children
+            or (x, y) in path):
+                return 
+
+            path.add((x,y))
+            word += board[x][y]
+            child = child.children[board[x][y]]
+            if child.end:
+                res.add(word)
+
+            dfs(x+1, y, child, word)
+            dfs(x-1, y, child, word)
+            dfs(x, y+1, child, word)
+            dfs(x, y-1, child, word)
+            path.remove((x,y))
+
+        for x in range(rows):
+            for y in range(cols):
+                dfs(x, y, root, "")
+        return res
+        
+
+
+        
