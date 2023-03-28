@@ -1,0 +1,23 @@
+class Solution(object):
+    def combinationSum(self, candidates, target):
+        """
+        :type candidates: List[int]
+        :type target: int
+        :rtype: List[List[int]]
+        """
+        combo = []
+        def backtrack(lst1, i):
+            if not lst1:
+                lst1 = []
+            sum1 = sum(lst1)
+            if sum1 == target:
+                combo.append(list(lst1))
+                return
+            if sum1 > target or i >= len(candidates):
+                return 
+            lst1.append(candidates[i])
+            backtrack(lst1, i)
+            lst1.pop()
+            backtrack(lst1, i+1)
+        backtrack([], 0)
+        return combo
