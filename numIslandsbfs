@@ -1,0 +1,32 @@
+class Solution(object):
+    def numIslands(self, grid):
+        """
+        :type grid: List[List[str]]
+        :rtype: int
+        """
+        if not grid:
+            return 0
+        rows, cols = len(grid), len(grid[0])
+        visited = set()
+        islands = 0
+
+        def bfs(x, y):
+            q = collections.deque()
+            q.append((x,y))
+            visited.add((x,y))
+            while q:
+                row, col = q.popleft()
+                directions = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+                for dr, dc in directions:
+                    r, c = dr+row, dc+col
+                    if (r<0 or c<0 or r>=rows or c>=cols or grid[r][c] == "0" or (r,            c)                      in visited):
+                        continue
+                    q.append((r,c))
+                    visited.add((r,c))
+
+        for x in range(rows):
+            for y in range(cols):
+                if grid[x][y] == "1" and (x,y) not in visited:
+                    bfs(x, y)
+                    islands += 1
+        return islands
