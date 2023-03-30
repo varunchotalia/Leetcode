@@ -1,0 +1,35 @@
+class Solution(object):
+    def pacificAtlantic(self, heights):
+        """
+        :type heights: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        if not heights:
+            return [[]]
+        rows, cols = len(heights), len(heights[0])
+        pac, atl = set(), set()
+        output = []
+
+        def dfs(x, y, visit, prev):
+            if x<0 or y<0 or  x>=rows or y>=cols or (x, y) in visit or heights[x][y] < prev:
+                return
+            cur = heights[x][y]
+            visit.add((x,y))
+            dfs(x+1, y, visit, cur)
+            dfs(x-1, y, visit, cur)
+            dfs(x, y+1, visit, cur)
+            dfs(x, y-1, visit, cur)
+
+        for x in range(rows):
+            dfs(x, 0, pac, heights[x][0])
+            dfs(x, cols-1, atl, heights[x][cols-1])
+
+        for y in range(cols):
+            dfs(0, y, pac, heights[0][y])
+            dfs(rows-1, y, atl, heights[rows-1][y])
+
+        for x in range(rows):
+            for y in range(cols):
+                if (x,y) in pac and (x,y) in atl:
+                    output.append([x, y])
+        return output
