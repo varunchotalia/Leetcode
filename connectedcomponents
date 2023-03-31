@@ -1,0 +1,45 @@
+class Node(object):
+    def __init__(self, x):
+        self.val = x
+        self.neighbours = []
+
+
+class ConnectingGraph3:
+    """
+    @param a: An integer
+    @param b: An integer
+    @return: nothing
+    """
+
+    def __init__(self, n):
+        # initialize your data structure here.
+        self.nlist = []
+        for x in range(1, n):
+            self.nlist.append(Node(x))
+
+    def connect(self, a, b):
+        # write your code here
+        self.nlist[a-1].neighbours.append(self.nlist[b-1])
+        self.nlist[b - 1].neighbours.append(self.nlist[a - 1])
+
+    """
+    @return: An integer
+    """
+
+    def query(self):
+        # write your code here
+        visited = set()
+        res = 1
+
+        def dfs(n):
+            if not n or n in visited:
+                return
+            visited.add(n)
+            for x in n.neighbours:
+                dfs(x)
+
+        for x in self.nlist:
+            if x not in visited:
+                dfs(x)
+                res += 1
+        return res
