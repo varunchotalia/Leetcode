@@ -1,0 +1,33 @@
+class Solution(object):
+    def canFinish(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: bool
+        """
+        if numCourses <= 1:
+            return True
+        hsh = {}
+        visited = set()
+        for x,y in prerequisites:
+            if x not in hsh:
+                hsh[x] = [y]
+                continue
+            hsh[x].append(y)
+        def dfs(x):
+            if x not in hsh or hsh[x] == []:
+                return True
+            if x in visited:
+                return False
+            visited.add(x)
+            for y in hsh[x]:
+                if not dfs(y):
+                    return False
+            visited.remove(x)
+            hsh[x] = []
+            return True
+        for i in range(numCourses):
+            if i not in visited and not dfs(i):
+                return False
+        return True
+            
