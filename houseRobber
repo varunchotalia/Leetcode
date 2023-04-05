@@ -1,0 +1,13 @@
+class Solution(object):
+    def rob(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        r1, r2 = 0, 0
+        for x in nums:
+            temp = max(r1+x, r2)
+            r1 = r2
+            r2 = temp
+        return r2
+
