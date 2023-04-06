@@ -1,0 +1,16 @@
+class Solution(object):
+    def rob(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if len(nums) == 1:
+            return nums[0]
+        def sub(s, e):
+            r1, r2 = 0, 0
+            for x in range(s, e):
+                temp = max(r1 + nums[x], r2)
+                r1 = r2
+                r2 = temp
+            return r2
+        return max(sub(1, len(nums)), sub(0, len(nums)-1))
