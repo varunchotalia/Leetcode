@@ -1,0 +1,17 @@
+import math
+class Solution(object):
+    def maxProduct(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        res = max(nums)
+        curmax, curmin = 1, 1
+
+        for n in nums:
+            tmp = curmax*n
+            curmax = max(curmax*n, curmin*n, n)
+            curmin = min(tmp, curmin*n, n)
+            res = max(curmax, res)
+
+        return res
