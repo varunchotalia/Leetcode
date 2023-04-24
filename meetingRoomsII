@@ -1,0 +1,21 @@
+class Solution:
+    # @param A : list of list of integers
+    # @return an integer
+    def solve(self, A):
+        start = sorted([i[0] for i in A])
+        end = sorted([i[1] for i in A])
+        
+        s, e = 0, 0
+        count, maxC = 0, 0
+        
+        while s<len(A):
+            if start[s] < end[e]:
+                s += 1
+                count += 1
+            else:
+                e += 1
+                count -= 1
+            if count > maxC:
+                maxC = count
+                
+        return maxC
